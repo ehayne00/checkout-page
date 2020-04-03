@@ -1,38 +1,71 @@
+html {
+  background-color: black;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbar{
+  background-color: black;
+  color: white;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-between;
+}
+
+.nav2 {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.yellow-line {
+  background-color: hsl(41, 88%, 60%);
+  height: 5px;
+}
+
+.nav-position {
+  position: fixed;
+  width:100%;
+  top: 0;
+}
+
+.cards-position {
+  display: flex;
+  justify-content: space-evenly;
+  
+}
+
+.card {
+  background-color: white;
+  border: 4px solid hsl(41, 88%, 60%);
+  border-radius: 50px;
+}
+
+.card:hover {
+  border: 4px solid red;
+}
+
+.select {
+  background-color: orange;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 8px;
+}
+
+.select:hover {
+  background-color: red;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.radio-buttons {
+  padding-top: 100px;
+  color: orange;
+  margin: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.spacearound {
+  padding: 10px;
 }

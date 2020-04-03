@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import products from "./data/products";
+import ProductCard from "./components/ProductCard";
+import NavBar from "./components/NavBar";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+
+class App extends React.Component {
+  state = {
+    payYearly: false,
+  };
+
+  togglePayYearly = () => {
+    this.setState({
+      payYearly: !this.state.payYearly,
+    });
+  };
+
+  render() {
+    const {payYearly} = this.state
+    const {togglePayYearly} = this
+    return (
+      <div className="App">
+
+        <NavBar />
+
+        <div className="radio-buttons">
+        <strong className="spacearound">Pay:</strong>
+        <label>
+          <input
+            type="radio"
+            value="Monthly"
+            checked={payYearly}
+            onChange={togglePayYearly}
+          />
+          Monthly
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Yearly"
+            checked={!payYearly}
+            onChange={togglePayYearly}
+          />
+          Yearly
+        </label>
+        </div>
+        <div className="cards-position">
+          {products.map((product) => (
+            <ProductCard product={product} key={product.id} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
