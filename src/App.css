@@ -30,6 +30,7 @@ html {
   position: fixed;
   width:100%;
   top: 0;
+  z-index: 100;
 }
 
 .products-head {
@@ -97,3 +98,40 @@ html {
   margin-right: 10px;
   font-size: 20px;
 }
+
+.form-position {
+  position: absolute;
+  background-color: beige;
+  width:90%;
+  height: 100%;
+  top:360px;
+  left: 4%;
+  padding: 25px;
+  z-index: 90;
+}
+
+.details-chosen {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-position {
+  text-align: left;
+  margin-top: 50px;
+}
+
+.x-btn {
+  margin-left: 90%;
+  font-size: 20px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 8px;
+}
+
+.x-btn:hover {
+  background-color: red;
+  color:white;
+}
+
+
