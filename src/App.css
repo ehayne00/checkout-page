@@ -1,5 +1,7 @@
 html {
-  background-color: black;
+  /* background-color: black; */
+  background-image: radial-gradient(circle, grey, black);
+  
 }
 
 .App {
@@ -7,7 +9,7 @@ html {
 }
 
 .navbar{
-  background-color: black;
+  background-color: rgb(22, 22, 22);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -30,9 +32,34 @@ html {
   top: 0;
 }
 
+.products-head {
+  margin-top: 70px;
+  padding-top: 15px;
+  font-size: 70px;
+  color: white;
+  background-color: black;
+}
+
+.text-font {
+  font-family: 'Baloo Thambi 2', cursive;
+}
+
+.p-color {
+  color: white;
+}
+
+.line2 {
+  background-color: hsl(41, 88%, 60%);
+  height: 2px;
+  width: 50%;
+  margin-left: 25%;
+  align-items: center;
+}
+
 .cards-position {
   display: flex;
   justify-content: space-evenly;
+  margin-bottom: 150px;
   
 }
 
@@ -61,11 +88,12 @@ html {
 }
 
 .radio-buttons {
-  padding-top: 100px;
   color: orange;
   margin: 30px;
 }
 
 .spacearound {
-  padding: 10px;
+  margin-left: 20px;
+  margin-right: 10px;
+  font-size: 20px;
 }

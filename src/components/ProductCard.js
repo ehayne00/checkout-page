@@ -3,7 +3,7 @@ import boiler from '../media/boiler.png'
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="card">
+    <div className="card text-font">
       <h1>{product.name}</h1>
       <img alt="oh no!" src={boiler} />
       <h2>Price: £{product.price}pcm</h2>

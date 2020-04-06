@@ -23,23 +23,26 @@ class App extends React.Component {
       <div className="App">
 
         <NavBar />
+        <h1 className="products-head text-font">Products</h1>
+        <p className="text-font p-color">Select a product and sign up online with the ideal contract to suit you</p>
+        <div className="line2"></div>
 
         <div className="radio-buttons">
-        <strong className="spacearound">Pay:</strong>
+        <strong className="spacearound text-font">Pay:</strong>
         <label>
-          <input
+          <input className="spacearound text-font"
             type="radio"
             value="Monthly"
-            checked={payYearly}
+            checked={!payYearly}
             onChange={togglePayYearly}
           />
           Monthly
         </label>
         <label>
-          <input
+          <input className="spacearound text-font"
             type="radio"
             value="Yearly"
-            checked={!payYearly}
+            checked={payYearly}
             onChange={togglePayYearly}
           />
           Yearly

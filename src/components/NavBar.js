@@ -6,7 +6,7 @@ const NavBar = () => {
         <div className="nav-position">
         <div className="navbar">
           <img alt="oh no!" src={hometree} />
-          <div className="nav2">
+          <div className="nav2 text-font">
               <h2>Homeowner</h2>
               <h2>Landlord</h2>
               <h2>About Us</h2>
