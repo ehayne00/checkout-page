@@ -9,6 +9,7 @@ import "./App.css";
 class App extends React.Component {
   state = {
     payYearly: false,
+    // products: []
   };
 
   togglePayYearly = () => {
@@ -16,6 +17,11 @@ class App extends React.Component {
       payYearly: !this.state.payYearly,
     });
   };
+
+  // componentDidMount(){
+  //   API.get("http://api.example.com/products")
+  //   .then(products => this.setState({ products }));
+  // }
 
   render() {
     const { payYearly } = this.state;
