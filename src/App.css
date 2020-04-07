@@ -113,6 +113,9 @@ html {
 .details-chosen {
   display: flex;
   justify-content: space-between;
+  background-color: white;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .details-position {
@@ -121,7 +124,7 @@ html {
 }
 
 .x-btn {
-  margin-left: 90%;
+  margin-left: 98%;
   font-size: 20px;
   padding-bottom: 5px;
   padding-left: 8px;
@@ -132,6 +135,60 @@ html {
 .x-btn:hover {
   background-color: red;
   color:white;
+}
+
+.select2 {
+  background-color: orange;
+  font-size: 20px;
+  margin-top: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 8px;
+  margin-left: 45%;
+}
+
+.select2:hover {
+  background-color: red;
+  color: white;
+}
+
+.select3 {
+  background-color: orange;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.select3:hover {
+  background-color: red;
+  color: white;
+}
+
+.text-backing {
+  background-color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+}
+
+.text-backing2 {
+  background-color: white;
+  padding: 20px;
+  padding-left: 50px;
+  text-align: left;
+}
+
+.set-answers {
+  color: slategray;
+}
+
+.button-placement {
+  width: 58%;
+  display: flex;
+  justify-content: space-between;
 }
 
 

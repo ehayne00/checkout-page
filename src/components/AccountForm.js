@@ -48,6 +48,21 @@ class AccountForm extends React.Component {
     });
   };
 
+  toggleFormAndReset = () => {
+    this.props.toggleCreateAccountForm()
+    this.resetAllToggles()
+  }
+
+  toggleInputAndReview = () => {
+    this.toggleInputShowing()
+    this.toggleReviewShowing()
+  }
+
+  toggleReviewAndCreated = () => {
+    this.toggleReviewShowing()
+    this.toggleAccountCreatedShowing()
+  }
+
   componentDidMount() {
     this.props.payYearly ?
     this.setState({
@@ -83,6 +98,24 @@ class AccountForm extends React.Component {
     })
     .then(contract => {
       if (contract.error) throw Error(contract.error)
+      this.sendEmail(account, contract)
+    })
+    .catch(error => alert(error))
+  }
+
+  sendEmail = (account, contract) => {
+    API.post("http://api.example.com/email/confirmation", {
+      email: {
+        account_id: account.id,
+        contract_number: contract.id,
+        full_name: `${this.state.firstName} ${this.state.lastName}`,
+        email_address: this.state.email
+      }
+    })
+    .then(email => {
+      if (email.error) throw Error(email.error)
+      this.toggleReviewShowing()
+      this.toggleAccountCreatedShowing()
     })
     .catch(error => alert(error))
   }
@@ -98,13 +131,12 @@ class AccountForm extends React.Component {
     } = this.state;
     const {
       updateFormData,
-      toggleReviewShowing,
-      toggleAccountCreatedShowing,
-      resetAllToggles,
-      toggleInputShowing,
+      createAccount,
+      toggleInputAndReview,
+      toggleFormAndReset,
+      toggleReviewAndCreated
     } = this;
     const {
-      toggleCreateAccountForm,
       payYearly,
       product,
       yearlyPrice,
@@ -114,13 +146,13 @@ class AccountForm extends React.Component {
       <div className="form-position">
         <button
           className="x-btn"
-          onClick={(toggleCreateAccountForm, resetAllToggles)}
+          onClick={(toggleFormAndReset)}
         >
           x
         </button>
         {inputShowing && (
           <div>
-            <h1>Enter your details to set up your account:</h1>
+            <h1>Account and contract set-up:</h1>
             <div className="details-position">
               <h2>You chose the product:</h2>
               <div className="details-chosen">
@@ -135,16 +167,17 @@ class AccountForm extends React.Component {
                   </h2>
                 </div>
                 <button
-                  className="select"
-                  onClick={(toggleCreateAccountForm, resetAllToggles)}
+                  className="select3"
+                  onClick={(toggleFormAndReset)}
                 >
                   Choose a different product
                 </button>
               </div>
-              <h3>
+              <h2>
                 Let us take some details from you so we can create your
                 account..
-              </h3>
+              </h2>
+              <div className="text-backing">
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -183,7 +216,8 @@ class AccountForm extends React.Component {
                   />
                 </Grid>
               </Grid>
-              <button onClick={(toggleInputShowing, toggleReviewShowing)}>
+              </div>
+              <button type="submit" className="select2" onClick={(toggleInputAndReview)}>
                 Submit Details
               </button>
             </div>
@@ -194,15 +228,17 @@ class AccountForm extends React.Component {
             firstName={firstName}
             lastName={lastName}
             email={email}
-            toggleReviewShowing={toggleReviewShowing}
-            toggleAccountCreatedShowing={toggleAccountCreatedShowing}
-            toggleInputShowing={toggleInputShowing}
+            createAccount={createAccount}
+            toggleInputAndReview={toggleInputAndReview}
+            toggleReviewAndCreated={toggleReviewAndCreated}
+            product={product}
+            yearlyPrice={yearlyPrice}
+            payYearly={payYearly}
           />
         )}
         {accountCreatedShowing && (
           <AccountCreated
-            toggleCreateAccountForm={toggleCreateAccountForm}
-            resetAllToggles={resetAllToggles}
+           toggleFormAndReset={toggleFormAndReset}
           />
         )}
       </div>

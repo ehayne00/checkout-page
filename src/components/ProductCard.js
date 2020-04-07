@@ -34,7 +34,7 @@ class ProductCard extends React.Component {
         ) : (
           <h2>Price: £{(product.price / 100).toFixed(2)}</h2>
         )}
-        <p>Item number: {product.id}</p>
+        <p>Item ID: {product.id}</p>
         <button className="select" onClick={toggleCreateAccountForm}>
           Select
         </button>

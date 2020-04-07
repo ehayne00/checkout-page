@@ -8,7 +8,7 @@ const post = (url, data) =>
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Accepts: "application/json",
+      "Accepts": "application/json",
     },
     body: JSON.stringify(data),
   }).then((resp) => resp.json());
