@@ -14,7 +14,33 @@ class AccountForm extends React.Component {
     inputShowing: true,
     reviewShowing: false,
     accountCreatedShowing: false,
+    touched: {
+      email: false,
+      firstName: false,
+      lastName: false,
+    },
   };
+
+  handleBlur = (field) => (e) => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true },
+    });
+  };
+
+  canBeSubmitted() {
+    const errors = this.validate(this.state.email, this.state.firstName, this.state.lastName);
+    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    return !isDisabled;
+  }
+
+  validate(email, firstName, lastName) {
+    // true means invalid, so our conditions got reversed
+    return {
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) === false,
+      firstName: firstName.length === 0,
+      lastName: lastName.length === 0
+    };
+  }
 
   updateFormData = (e) => {
     this.setState({
@@ -49,59 +75,59 @@ class AccountForm extends React.Component {
   };
 
   toggleFormAndReset = () => {
-    this.props.toggleCreateAccountForm()
-    this.resetAllToggles()
-  }
+    this.props.toggleCreateAccountForm();
+    this.resetAllToggles();
+  };
 
   toggleInputAndReview = () => {
-    this.toggleInputShowing()
-    this.toggleReviewShowing()
-  }
+    this.toggleInputShowing();
+    this.toggleReviewShowing();
+  };
 
   toggleReviewAndCreated = () => {
-    this.toggleReviewShowing()
-    this.toggleAccountCreatedShowing()
-  }
+    this.toggleReviewShowing();
+    this.toggleAccountCreatedShowing();
+  };
 
   componentDidMount() {
-    this.props.payYearly ?
-    this.setState({
-      price: this.props.yearlyPrice()
-    })
-    : this.setState({
-      price: this.props.product.price
-    })
+    this.props.payYearly
+      ? this.setState({
+          price: this.props.yearlyPrice(),
+        })
+      : this.setState({
+          price: this.props.product.price,
+        });
   }
 
   createAccount = () => {
-
     API.post("http://api.example.com/accounts", {
       account: {
         first_name: this.state.firstName,
         last_name: this.state.lastName,
-        email_address: this.state.email
-      }
+        email_address: this.state.email,
+      },
     })
-    .then(account => {
-      if (account.error) throw Error(account.error)
-      this.createContract(account)})
-    .catch(error => alert(error))
-  }
+      .then((account) => {
+        if (account.error) throw Error(account.error);
+        this.createContract(account);
+      })
+      .catch((error) => alert(error));
+  };
 
   createContract = (account) => {
     API.post(`http://api.example.com/accounts/${account.id}/contracts`, {
       contract: {
         account_id: account.id,
         product_id: this.props.product.id,
-        price: this.state.price
-      }
+        price: this.state.price,
+      },
     })
-    .then(contract => {
-      if (contract.error) throw Error(contract.error)
-      this.sendEmail(account, contract)
-    })
-    .catch(error => alert(error))
-  }
+      .then((contract) => {
+        if (contract.error) throw Error(contract.error);
+        this.sendEmail(account, contract);
+      })
+      .catch((error) => alert(error));
+  };
 
   sendEmail = (account, contract) => {
     API.post("http://api.example.com/email/confirmation", {
@@ -109,16 +135,16 @@ class AccountForm extends React.Component {
         account_id: account.id,
         contract_number: contract.id,
         full_name: `${this.state.firstName} ${this.state.lastName}`,
-        email_address: this.state.email
-      }
+        email_address: this.state.email,
+      },
     })
-    .then(email => {
-      if (email.error) throw Error(email.error)
-      this.toggleReviewShowing()
-      this.toggleAccountCreatedShowing()
-    })
-    .catch(error => alert(error))
-  }
+      .then((email) => {
+        if (email.error) throw Error(email.error);
+        this.toggleReviewShowing();
+        this.toggleAccountCreatedShowing();
+      })
+      .catch((error) => alert(error));
+  };
 
   render() {
     const {
@@ -134,20 +160,23 @@ class AccountForm extends React.Component {
       createAccount,
       toggleInputAndReview,
       toggleFormAndReset,
-      toggleReviewAndCreated
+      toggleReviewAndCreated,
+      handleBlur,
+      validate
     } = this;
-    const {
-      payYearly,
-      product,
-      yearlyPrice,
-    } = this.props;
+    const { payYearly, product, yearlyPrice } = this.props;
+    const errors = validate(email, firstName, lastName);
+    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    const shouldMarkError = (field) => {
+      const hasError = errors[field];
+      const shouldShow = this.state.touched[field];
+  
+      return hasError ? shouldShow : false;
+    };
 
     return (
       <div className="form-position">
-        <button
-          className="x-btn"
-          onClick={(toggleFormAndReset)}
-        >
+        <button className="x-btn" onClick={toggleFormAndReset}>
           x
         </button>
         {inputShowing && (
@@ -166,10 +195,7 @@ class AccountForm extends React.Component {
                     </u>
                   </h2>
                 </div>
-                <button
-                  className="select3"
-                  onClick={(toggleFormAndReset)}
-                >
+                <button className="select3" onClick={toggleFormAndReset}>
                   Choose a different product
                 </button>
               </div>
@@ -178,46 +204,57 @@ class AccountForm extends React.Component {
                 account..
               </h2>
               <div className="text-backing">
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    onChange={updateFormData}
-                    required
-                    id="firstName"
-                    name="firstName"
-                    label="First name"
-                    fullWidth
-                    autoComplete="fname"
-                    value={firstName}
-                  />
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      className={shouldMarkError("firstName") ? "error" : ""}
+                      onChange={updateFormData}
+                      required
+                      id="firstName"
+                      name="firstName"
+                      label="First name"
+                      fullWidth
+                      autoComplete="fname"
+                      value={firstName}
+                      onBlur={handleBlur("firstName")}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      className={shouldMarkError("lastName") ? "error" : ""}
+                      onChange={updateFormData}
+                      required
+                      id="lastName"
+                      name="lastName"
+                      label="Last name"
+                      fullWidth
+                      autoComplete="lname"
+                      value={lastName}
+                      onBlur={handleBlur("lastName")}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      className={shouldMarkError("email") ? "error" : ""}
+                      onChange={updateFormData}
+                      required
+                      id="email"
+                      name="email"
+                      label="email"
+                      fullWidth
+                      autoComplete="email"
+                      value={email}
+                      onBlur={handleBlur("email")}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    onChange={updateFormData}
-                    required
-                    id="lastName"
-                    name="lastName"
-                    label="Last name"
-                    fullWidth
-                    autoComplete="lname"
-                    value={lastName}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    onChange={updateFormData}
-                    required
-                    id="email"
-                    name="email"
-                    label="email"
-                    fullWidth
-                    autoComplete="email"
-                    value={email}
-                  />
-                </Grid>
-              </Grid>
               </div>
-              <button type="submit" className="select2" onClick={(toggleInputAndReview)}>
+              <button
+                disabled={isDisabled}
+                type="submit"
+                className="select2"
+                onClick={toggleInputAndReview}
+              >
                 Submit Details
               </button>
             </div>
@@ -237,9 +274,7 @@ class AccountForm extends React.Component {
           />
         )}
         {accountCreatedShowing && (
-          <AccountCreated
-           toggleFormAndReset={toggleFormAndReset}
-          />
+          <AccountCreated toggleFormAndReset={toggleFormAndReset} />
         )}
       </div>
     );
