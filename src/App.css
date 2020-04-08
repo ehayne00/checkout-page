@@ -192,8 +192,8 @@ html {
 }
 
 .error {
-  /* background-color: rgb(255,0,0,0.3); */
-  background-image: linear-gradient(to right, rgb(255,0,0,0.5) , white);
+  background-image: linear-gradient(white, rgb(255,0,0,0.4));
+  /* background-image: linear-gradient(to right, rgb(255,0,0,0.5) , white); */
 }
 
 
